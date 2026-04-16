@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Nica Pauline | IT Student</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #fff5f9;
+            --bg-card: rgba(255, 245, 250, 0.85);
+            --bg-elevated: #ffffff;
+            --text-primary: #2c1a24;
+            --text-secondary: #7a5c6e;
+            --text-muted: #b194a3;
+            --accent-pink: #f25a9e;
+            --accent-deep: #d43f7a;
+            --border: rgba(242, 90, 158, 0.25);
+            --shadow-sm: 0 8px 20px rgba(242, 90, 158, 0.08);
+            --shadow-md: 0 20px 35px -10px rgba(242, 90, 158, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* floating petals background */
+        .floating-petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .petal {
+            position: absolute;
+            opacity: 0.4;
+            font-size: 1rem;
+            animation: floatPetal linear infinite;
+        }
+        @keyframes floatPetal {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #d43f7a, #f25a9e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-pink);
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Left Column */
+        .left-col h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #2c1a24, #d43f7a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .left-col .location {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        /* Profile Image - FROM CLOUDINARY (File Server) */
+        .profile-container {
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .profile-img-large {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-pink);
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s;
+        }
+        .profile-img-large:hover {
+            transform: scale(1.03);
+        }
+
+        .services-box {
+            margin: 2rem 0;
+        }
+
+        .services-box h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .services-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .service-tag {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .service-tag:hover {
+            border-color: var(--accent-pink);
+            color: var(--accent-pink);
+            transform: translateY(-2px);
+        }
+
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-pink);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Right Column - Cards */
+        .section-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .section-card:hover {
+            border-color: var(--accent-pink);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .badge {
+            background: rgba(242, 90, 158, 0.15);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--accent-pink);
+        }
+
+        /* Education & Work Items */
+        .edu-item, .work-item {
+            margin-bottom: 1.2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .edu-item:last-child, .work-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .item-sub {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-detail {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.3rem;
+        }
+
+        .responsibilities {
+            margin-top: 0.8rem;
+            padding-left: 1rem;
+        }
+
+        .responsibilities li {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        /* Bio Highlights */
+        .bio-highlights {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .highlight {
+            flex: 1;
+            background: rgba(242, 90, 158, 0.08);
+            padding: 1rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .highlight:hover {
+            background: rgba(242, 90, 158, 0.15);
+        }
+
+        .highlight-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-pink);
+        }
+
+        .highlight-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Siblings Gallery - Images from Cloudinary */
+        .siblings-section {
+            margin-top: 2rem;
+        }
+        .siblings-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .siblings-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: flex-start;
+        }
+        .sibling-card {
+            background: var(--bg-elevated);
+            border-radius: 20px;
+            padding: 0.8rem;
+            text-align: center;
+            width: 110px;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+        }
+        .sibling-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-pink);
+        }
+        .sibling-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-pink);
+            margin-bottom: 0.5rem;
+        }
+        .sibling-card p {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            padding-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--accent-pink);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-pink);
+            box-shadow: var(--shadow-md);
+        }
+
+        .project-img {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 1.2rem;
+        }
+
+        .project-info h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        .project-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        footer i {
+            margin: 0 0.5rem;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        footer i:hover {
+            color: var(--accent-pink);
+        }
+
+        /* Modal */
+        .modal-pink {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(242, 90, 158, 0.15);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-pink-content {
+            background: var(--bg-elevated);
+            border: 2px solid var(--accent-pink);
+            border-radius: 32px;
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            position: relative;
+            animation: modalPop 0.3s ease;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-close-pink {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+        .modal-close-pink:hover {
+            color: var(--accent-pink);
+        }
+        .btn-pink-outline {
+            background: rgba(242, 90, 158, 0.1);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            margin-top: 1rem;
+            color: var(--text-primary);
+        }
+        .btn-pink-outline:hover {
+            background: rgba(242, 90, 158, 0.2);
+            border-color: var(--accent-pink);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .left-col h1 {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                gap: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="floating-petals" id="petalContainer"></div>
+
+<div class="container">
+    <!-- Navigation -->
+    <nav>
+        <div class="logo"><span style="color:#f25a9e;">.</span></div>
+        <div class="nav-links">
+            <a href="#work">Work</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Two Column Layout -->
+    <div class="two-columns">
+        <!-- LEFT COLUMN -->
+        <div class="left-col">
+            <h1>I'm Nica Pauline,<br>IT Student</h1>
+            <div class="location"><i class="fas fa-map-marker-alt" style="color:#f25a9e; margin-right: 6px;"></i> Based in Oriental Mindoro, Philippines</div>
+            
+            <!-- PROFILE IMAGE - FROM CLOUDINARY (FILE SERVER) -->
+            <div class="profile-container">
+                <img class="profile-img-large" src="https://res.cloudinary.com/doxofddj5/image/upload/v1776263330/photo_2026-01-30_18-53-19_r9jxxt.jpg" alt="Nica Pauline - Cloudinary File Server">
+            </div>
+            
+            <!-- Services Section -->
+            <div class="services-box">
+                <h3>Services | Provide</h3>
+                <div class="services-grid">
+                    <span class="service-tag">UI/UX Design</span>
+                    <span class="service-tag">Application Design</span>
+                    <span class="service-tag">Website Design</span>
+                    <span class="service-tag">Dashboard</span>
+                    <span class="service-tag">Workflow</span>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-number">600+</div>
+                    <div class="stat-label">hours of experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">projects completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">team members supervised</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-col">
+            <!-- Academic Card -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h2>My Academic & Professional Journey</h2>
+                    <span class="badge">since 2021</span>
+                </div>
+                <div class="edu-item">
+                    <div class="item-title">Bachelor of Science in Information Technology</div>
+                    <div class="item-sub">Mindoro State University</div>
+                    <div class="item-detail">
+                        <span><i class="fas fa-map-pin"></i> Oriental Mindoro, PH</span>
+                        <span><i class="fas fa-calendar"></i> 2023 - 2027</span>
+                    </div>
+                </div>
+                <div class="edu-item">
+                    <div class="item-title">College of Computer Studies</div>
+                    <div class="item-sub">Third Year Student</div>
+                    <div class="item-detail">System Administration</div>
+                </div>
+            </div>
+
+            <!-- Work Experience Card -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h2>Work Experience</h2>
+                </div>
+                <div class="work-item">
+                    <div class="item-title">Product Designer (Intern → Junior)</div>
+                    <div class="item-sub">CreativeTech Studio · Remote</div>
+                    <div class="item-detail">January 2024 - Present</div>
+                    <ul class="responsibilities">
+                        <li>• Designed and shipped 15+ user-centered interfaces for web & mobile apps.</li>
+                        <li>• Collaborated with developers to implement design systems in React & Tailwind.</li>
+                        <li>• Led user research and usability testing, improving retention by 25%.</li>
+                    </ul>
+                </div>
+                <div class="work-item">
+                    <div class="item-title">Freelance UI/UX Designer</div>
+                    <div class="item-sub">Self-employed · Global Clients</div>
+                    <div class="item-detail">2022 - Present</div>
+                    <ul class="responsibilities">
+                        <li>• Built responsive websites and dashboards for 20+ small businesses.</li>
+                        <li>• Created wireframes, prototypes, and high-fidelity designs using Figma.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Who is Trecia Anne? -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h2>Who is Nica Pauline?</h2>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.2rem;">
+                    Passionate IT student and product designer focused on creating meaningful digital experiences. 
+                    I blend creativity with technical skills to build products that are both functional and delightful.
+                </p>
+                <div class="bio-highlights">
+                    <div class="highlight">
+                        <div class="highlight-number">4+ yrs</div>
+                        <div class="highlight-label">Design Experience</div>
+                    </div>
+                    <div class="highlight">
+                        <div class="highlight-number">35+</div>
+                        <div class="highlight-label">Happy Clients</div>
+                    </div>
+                    <div class="highlight">
+                        <div class="highlight-number">8</div>
+                        <div class="highlight-label">Tech Awards</div>
+                    </div>
+                </div>
+                <button id="moreAboutBtn" class="btn-pink-outline"><i class="fas fa-heart" style="margin-right: 6px;"></i> Read more about my journey →</button>
+            </div>
+
+            <!-- SIBLINGS SECTION - ALL IMAGES FROM CLOUDINARY (FILE SERVER) -->
+            <div class="siblings-section">
+                <div class="siblings-title">
+                    <i class="fas fa-users" style="color: #f25a9e;"></i> My Siblings
+                </div>
+                <div class="siblings-grid" id="siblingsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <div id="projects" class="projects-section">
+        <h2 class="section-title"><i class="fas fa-palette"></i> Selected Projects</h2>
+        <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+
+    <footer id="contact">
+        <p>© 2026 Nica Pauline Gan — IT Student</p>
+        <p style="margin-top: 0.5rem; font-size: 0.7rem;">
+            <i class="fas fa-cloud-upload-alt"></i> All images served from Cloudinary 
+        </p>
+        <p style="margin-top: 0.5rem;">
+            <i class="fab fa-github"></i> github/nicapolin &nbsp;&nbsp;
+            <i class="fab fa-linkedin"></i> linkedin/in/nica &nbsp;&nbsp;
+            <i class="fas fa-envelope"></i> pixie@design.studio
+        </p>
+    </footer>
+</div>
+
+<!-- Modal -->
+<div id="modalPink" class="modal-pink">
+    <div class="modal-pink-content">
+        <span class="modal-close-pink">&times;</span>
+        <div id="modalBodyPink">
+            <h3 style="color: #f25a9e;">✨</h3>
+            <p>Content here</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // SIBLINGS DATA - ALL IMAGES FROM CLOUDINARY (FILE SERVER)
+    const siblingsData = [
+        { name: "Austine Rio", img: "https://res.cloudinary.com/doxofddj5/image/upload/v1776250151/486598590_2466197697060885_6638689244834438460_n_p0elib.jpg" },
+        { name: "Joanna Marie", img: "https://res.cloudinary.com/doxofddj5/image/upload/v1776250217/IMG_20241207_090722_385_bq7ucs.jpg" },
+        { name: "Trecia Mae", img: "https://res.cloudinary.com/doxofddj5/image/upload/v1776250539/photo_2026-04-15_18-55-07_boi9ou.jpg" },
+        { name: "Jan Aizelle", img: "https://res.cloudinary.com/doxofddj5/image/upload/v1776249645/photo_2026-04-15_17-41-37_czswuk.jpg" },
+        { name: "Janella Rose", img: "https://res.cloudinary.com/doxofddj5/image/upload/v1776249645/photo_2026-04-15_17-41-39_o5k88l.jpg" }
+    ];
+
+    // Render siblings grid
+    const siblingsGrid = document.getElementById('siblingsGrid');
+    siblingsGrid.innerHTML = siblingsData.map(s => `
+        <div class="sibling-card">
+            <img src="${s.img}" alt="${s.name}" loading="lazy">
+            <p>${s.name}</p>
+        </div>
+    `).join('');
+
+    // PROJECTS DATA with images from Cloudinary
+    const projectsData = [
+        {
+            title: "Technopreneurship",
+            desc: "Business ecosystem platform empowering local entrepreneurs.",
+            img: "https://res.cloudinary.com/doxofddj5/image/upload/v1776251748/sewsera_h25ibl.png"
+        },
+        {
+            title: "Startup System",
+            desc: "Lean analytics & growth toolkit for early-stage startups.",
+            img: "https://res.cloudinary.com/doxofddj5/image/upload/v1776251795/DAYO_123_rs6adt.png"
+        },
+        {
+            title: "Capstone: Animis",
+            desc: "Mental wellness web app with AI journaling and community support.",
+            img: "https://res.cloudinary.com/doxofddj5/image/upload/v1776251755/ANIMIS_zpvm6g.png"
+        }
+    ];
+
+    const projectsGrid = document.getElementById('projectsGrid');
+    projectsGrid.innerHTML = projectsData.map(project => `
+        <div class="project-card" data-title="${project.title}" data-desc="${project.desc}">
+            <img class="project-img" src="${project.img}" alt="${project.title}">
+            <div class="project-info">
+                <h4>${project.title}</h4>
+                <p>${project.desc}</p>
+            </div>
+        </div>
+    `).join('');
+
+    // Modal System
+    const modal = document.getElementById('modalPink');
+    const modalBody = document.getElementById('modalBodyPink');
+    const closeModal = document.querySelector('.modal-close-pink');
+    
+    function openPinkModal(title, content, extraHtml = '') {
+        modalBody.innerHTML = `<h3 style="color: #f25a9e; margin-bottom: 1rem;">${title}</h3><p>${content}</p>${extraHtml}`;
+        modal.style.display = 'flex';
+    }
+    
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+    });
+    
+    // More about button
+    document.getElementById('moreAboutBtn').addEventListener('click', () => {
+        openPinkModal("My Creative Journey", 
+            "I started as a curious coder, then fell in love with design. Today, I help brands and startups craft digital identities that stand out. I believe great design is invisible — it just works. Outside of work, I enjoy gaming, video editing, and exploring new design trends. Every project I touch gets a sprinkle of pink magic 💗"
+        );
+    });
+    
+    // Service tags interaction
+    const serviceTags = document.querySelectorAll('.service-tag');
+    serviceTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+            const service = tag.innerText;
+            openPinkModal(`${service}`, `I specialize in ${service} — crafting intuitive, beautiful, and user-centered digital solutions. Let's bring your vision to life with a touch of elegance and functionality.`);
+        });
+    });
+    
+    // Project cards modal
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.getAttribute('data-title') || 'Project';
+            const desc = card.getAttribute('data-desc') || 'Amazing design work';
+            openPinkModal(title, desc, `<div style="margin-top: 1rem; padding: 1rem; background: rgba(242,90,158,0.1); border-radius: 20px;"><i class="fas fa-heart" style="color:#f25a9e;"></i> Case study available upon request</div>`);
+        });
+    });
+    
+    // Floating petals animation
+    function createPetal() {
+        const petalContainer = document.getElementById('petalContainer');
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        petal.innerHTML = ['🌸','💗','🌸','💖','🌸','💕','🌸','🎀'][Math.floor(Math.random()*8)];
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.fontSize = Math.random() * 18 + 12 + 'px';
+        petal.style.animationDuration = Math.random() * 8 + 7 + 's';
+        petal.style.animationDelay = Math.random() * 5 + 's';
+        petalContainer.appendChild(petal);
+        setTimeout(() => petal.remove(), 12000);
+    }
+    setInterval(createPetal, 700);
+    
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            if (targetId === 'work') {
+                document.querySelector('.two-columns').scrollIntoView({ behavior: 'smooth' });
+            } else if (targetId === 'projects') {
+                document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+            } else if (targetId === 'contact') {
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+    
+    console.log("✅ All images loaded from Cloudinary (File Server)");
+    console.log("📁 Profile image, sibling photos, and project images served via Cloudinary CDN");
+</script>
+</body>
+</html>
+ 
